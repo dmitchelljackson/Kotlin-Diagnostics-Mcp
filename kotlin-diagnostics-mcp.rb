@@ -68,16 +68,6 @@ class KotlinDiagnosticsMcp < Formula
     # Verify installation
     ohai "Verifying installation..."
     
-    # Check if dependencies are properly installed
-    unless Formula["openjdk@21"].installed?
-      opoo "OpenJDK 21 may not be properly installed"
-    end
-    
-    # Check kotlin-lsp
-    unless Formula["kotlin-lsp"].installed?
-      opoo "Kotlin LSP is not installed"
-    end
-    
     # Provide usage instructions
     ohai "Installation complete!"
     puts ""
@@ -119,9 +109,9 @@ class KotlinDiagnosticsMcp < Formula
       
       The tool is now available globally as 'kotlin-diagnostics-mcp'.
       
-      Dependencies installed:
-      • OpenJDK 21 (#{Formula["openjdk@21"].installed? ? "✓" : "✗"})
-      • Kotlin LSP (#{Formula["kotlin-lsp"].installed? ? "✓" : "✗"})
+      Required dependencies:
+      • OpenJDK 21
+      • Kotlin LSP
       
       Platform-specific setup:
       #{OS.mac? ? 
