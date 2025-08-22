@@ -1,7 +1,7 @@
 class KotlinDiagnosticsMcp < Formula
   desc "Model Context Protocol server for Kotlin LSP diagnostics"
-  homepage "https://github.com/YOUR_USERNAME/Kotlin-Diagnostics-Mcp"
-  url "https://github.com/YOUR_USERNAME/Kotlin-Diagnostics-Mcp/releases/download/v1.0.0/kotlin-diagnostics.jar"
+  homepage "https://github.com/dmitchelljackson/Kotlin-Diagnostics-Mcp"
+  url "https://github.com/dmitchelljackson/Kotlin-Diagnostics-Mcp/releases/download/v1.0.0/kotlin-diagnostics.jar"
   version "1.0.0"
 
   # Dependencies that will be automatically installed
