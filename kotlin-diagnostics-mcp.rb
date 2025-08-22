@@ -6,20 +6,26 @@ class KotlinDiagnosticsMcp < Formula
 
   # Dependencies that will be automatically installed
   depends_on "openjdk@21"
+  depends_on "jetbrains/utils/kotlin-lsp"
 
   # Add the JetBrains tap and install kotlin-lsp
   def self.add_jetbrains_tap
-    system "brew", "tap", "jetbrains/utils" unless system("brew tap | grep -q jetbrains/utils")
+    # Check if tap already exists first
+    unless Utils.safe_popen_read("brew", "tap").include?("jetbrains/utils")
+      system "brew", "tap", "jetbrains/utils"
+    end
   end
 
   def install
     # Ensure JetBrains tap is added
-    self.class.add_jetbrains_tap
+    # (No longer needed; Homebrew auto-taps when using a tap-qualified dependency)
+    # self.class.add_jetbrains_tap
     
-    # Install kotlin-lsp if not already installed
-    unless system("brew list kotlin-lsp > /dev/null 2>&1")
-      system "brew", "install", "kotlin-lsp"
-    end
+    # Install kotlin-lsp (handled by depends_on)
+    # unless Formula["kotlin-lsp"].installed?
+    #   ohai "Installing kotlin-lsp..."
+    #   system "brew", "install", "kotlin-lsp"
+    # end
     
     # Install the JAR file
     libexec.install "kotlin-diagnostics.jar"
@@ -63,12 +69,13 @@ class KotlinDiagnosticsMcp < Formula
     ohai "Verifying installation..."
     
     # Check if dependencies are properly installed
-    unless system("brew list openjdk@21 > /dev/null 2>&1")
+    unless Formula["openjdk@21"].installed?
       opoo "OpenJDK 21 may not be properly installed"
     end
     
-    unless system("brew list kotlin-lsp > /dev/null 2>&1")
-      opoo "Kotlin LSP may not be properly installed"
+    # Check kotlin-lsp
+    unless Formula["kotlin-lsp"].installed?
+      opoo "Kotlin LSP is not installed"
     end
     
     # Provide usage instructions
@@ -114,7 +121,7 @@ class KotlinDiagnosticsMcp < Formula
       
       Dependencies installed:
       • OpenJDK 21 (#{Formula["openjdk@21"].installed? ? "✓" : "✗"})
-      • Kotlin LSP (#{system("brew list kotlin-lsp > /dev/null 2>&1") ? "✓" : "✗"})
+      • Kotlin LSP (#{Formula["kotlin-lsp"].installed? ? "✓" : "✗"})
       
       Platform-specific setup:
       #{OS.mac? ? 
